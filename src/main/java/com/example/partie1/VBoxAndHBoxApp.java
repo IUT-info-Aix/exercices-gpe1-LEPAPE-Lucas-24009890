@@ -9,6 +9,7 @@ import javafx.scene.control.Separator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -26,6 +27,7 @@ public class VBoxAndHBoxApp extends Application {
         Button btnRefresh = new Button("Refresh");
 
         HBox topRightControls = new HBox();
+        HBox.setHgrow(topRightControls, Priority.ALWAYS );
         topRightControls.setAlignment( Pos.BOTTOM_RIGHT );
         Hyperlink signOutLink = new Hyperlink("Sign Out");
         topRightControls.getChildren().add( signOutLink );
