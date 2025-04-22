@@ -1,6 +1,7 @@
 package com.example.partie1;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -36,15 +37,18 @@ public class VBoxAndHBoxApp extends Application {
 
         // Création du tableau avec les deux colonnes
         TableView<Object> tblCustomers = new TableView<>();
+        tblCustomers.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         TableColumn<Object, String> lastNameCol = new TableColumn<>("Last Name");
         TableColumn<Object, String> firstNameCol = new TableColumn<>("First Name");
         tblCustomers.getColumns().addAll( lastNameCol, firstNameCol );
+        VBox.setVgrow( tblCustomers, Priority.ALWAYS );
 
         // Création de la ligne de séparation
         Separator sep = new Separator();
 
         // Création du bandeau en bas de la fenêtre
         HBox bottomControls = new HBox();
+        bottomControls.setAlignment(Pos.BOTTOM_RIGHT );
         Button btnClose = new Button("Close");
         bottomControls.getChildren().add( btnClose );
 
@@ -55,6 +59,9 @@ public class VBoxAndHBoxApp extends Application {
                 sep,
                 bottomControls
         );
+        VBox.setMargin( topControls, new Insets(10.0d) );
+        VBox.setMargin( tblCustomers, new Insets(0.0d, 10.0d, 10.0d, 10.0d) );
+        VBox.setMargin( bottomControls, new Insets(10.0d) );
 
         // Ajout du conteneur à la scene
         Scene scene = new Scene(vbox );
@@ -64,6 +71,7 @@ public class VBoxAndHBoxApp extends Application {
         primaryStage.setWidth( 800 );
         primaryStage.setHeight( 600 );
         primaryStage.setTitle("VBox and HBox App");
+
 
         // Affichage de la fenêtre
         primaryStage.show();
