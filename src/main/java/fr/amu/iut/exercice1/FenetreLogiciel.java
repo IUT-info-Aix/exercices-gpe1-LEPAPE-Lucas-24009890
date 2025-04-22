@@ -1,6 +1,7 @@
 package fr.amu.iut.exercice1;
 
 import javafx.application.Application;
+import javafx.scene.control.Separator;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
@@ -104,7 +105,7 @@ public class FenetreLogiciel extends Application {
         Label labelBas = new Label("Ceci est un label de bas de page");
         HBox BLabelBas = new HBox();
         BLabelBas.setAlignment(Pos.CENTER);
-        BLabelBas.getChildren().add(labelBas);
+        BLabelBas.getChildren().addAll(labelBas);
 
         // Placement des différents
         canvas.setTop(menuBar);
