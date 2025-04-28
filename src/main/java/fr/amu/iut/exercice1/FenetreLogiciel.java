@@ -1,128 +1,91 @@
 package fr.amu.iut.exercice1;
 
 import javafx.application.Application;
-import javafx.scene.control.Separator;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.control.TextField;
 
 public class FenetreLogiciel extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        // Création du conteneur principal
-        BorderPane canvas = new BorderPane();
-        primaryStage.setTitle("Premier exemple manipulant les conteneurs");
+        BorderPane root = new BorderPane();
+        GridPane grid = new GridPane();
+        Scene scene = new Scene(root, 800, 500);
 
-        // Création des déroulants
-        MenuBar menuBar = new MenuBar();
+        //Menu bar
+        Menu menu1 = new Menu("File");
+        MenuItem _New = new MenuItem("New");
+        MenuItem _Open = new MenuItem("Open");
+        MenuItem _Save = new MenuItem("Save");
+        MenuItem _SaveAs = new MenuItem("Close");
 
-        // Création du menu "File"
-        Menu menuFile = new Menu("File");
-        MenuItem newItem = new MenuItem("New");
-        MenuItem openItem = new MenuItem("Open");
-        MenuItem saveItem = new MenuItem("Save");
-        MenuItem exitItem = new MenuItem("Exit");
-        menuFile.getItems().addAll(newItem, openItem, saveItem);
+        menu1.getItems().addAll(_New, _Open, _Save, _SaveAs);
 
-        // Création du menu "Edit"
-        Menu menuEdit = new Menu("Edit");
-        MenuItem cutItem = new MenuItem("Cut");
-        MenuItem copyItem = new MenuItem("Copy");
-        MenuItem pasteItem = new MenuItem("Paste");
-        menuEdit.getItems().addAll(cutItem, copyItem, pasteItem);
+        Menu menu2 = new Menu("Edit");
+        MenuItem _Cut = new MenuItem("Cut");
+        MenuItem _Copy = new MenuItem("Copy");
+        MenuItem _Paste = new MenuItem("Paste");
 
-        // Création du menu "Help"
-        Menu menuHelp = new Menu("Help");
+        menu2.getItems().addAll(_Cut, _Copy,_Paste);
 
-        // Ajout des menus à la barre de menus
-        menuBar.getMenus().addAll(menuFile, menuEdit, menuHelp);
+        Menu menu3 = new Menu("Help");
 
-        // Création des boutons
-        VBox bareDeBoutons = new VBox();
-        bareDeBoutons.setAlignment(Pos.CENTER);
+        MenuBar menuBar = new MenuBar(menu1, menu2, menu3);
+        root.setTop(menuBar);
 
-        Label labelBouton = new Label("Boutons :");
-        Button bouton1 = new Button("Bouton 1");
-        Button bouton2 = new Button("Bouton 2");
-        Button bouton3 = new Button("Bouton 3");
+        //Buttons
+        Button button1 = new Button("Bouton 1");
+        Button button2 = new Button("Bouton 2");
+        Button button3 = new Button("Bouton 3");
+        VBox buttons = new VBox(new Label("Boutons :"),button1, button2, button3);
+        buttons.setSpacing(10.0);
+        buttons.setPadding(new Insets(10.0, 10.0, 10.0, 10.0));
+        buttons.setAlignment(Pos.CENTER);;
+        HBox buttonsAndLabels = new HBox(buttons,new Separator(Orientation.VERTICAL));
+        buttonsAndLabels.setAlignment(Pos.CENTER);
+        root.setLeft(buttonsAndLabels);
 
-        VBox.setMargin(labelBouton, new Insets(5));
-        VBox.setMargin(bouton1, new Insets(5));
-        VBox.setMargin(bouton2, new Insets(5));
-        VBox.setMargin(bouton3, new Insets(5));
 
-        bareDeBoutons.getChildren().addAll(labelBouton, bouton1, bouton2, bouton3);
+        //GridPane
+        GridPane gridpane = new GridPane();
+        gridpane.add(new Label("Name:"),0,0); gridpane.add(new TextField(),1,0);
+        gridpane.add(new Label("Email:"),0,1); gridpane.add(new TextField(),1,1);
+        gridpane.add(new Label("Password:"),0,2); gridpane.add(new TextField(),1,2);
+        gridpane.setHgap(5);
+        gridpane.setVgap(10);
+        gridpane.setAlignment(Pos.CENTER);
 
-        // Création du formulaire
-        GridPane formulaire = new GridPane();
-        formulaire.setAlignment(Pos.CENTER);
-        formulaire.setHgap(10);
-        formulaire.setVgap(20);
 
-        Label labelName = new Label("Name:");
-        TextField textName = new TextField();
-        Label labelEmail = new Label("Email:");
-        TextField textEmail = new TextField();
-        Label labelPassword = new Label("Password:");
-        PasswordField textPassword = new PasswordField();
+        //Button under GridPane
+        Button button4 = new Button("Submit");
+        Button button5 = new Button("Cancel");
+        HBox buttonsForm = new HBox(button4, button5);
+        buttonsForm.setAlignment(Pos.CENTER);
+        VBox formBox = new VBox(gridpane,buttonsForm);
+        formBox.setAlignment(Pos.CENTER);
+        root.setCenter(formBox);
+        formBox.setSpacing(10);
+        buttonsForm.setSpacing(10);
 
-        Button submitButton = new Button("Submit");
-        Button cancelButton = new Button("Cancel");
+        //Label
+        VBox basDePages = new VBox(new Separator(Orientation.HORIZONTAL),new Label("Ceci est un label de bas de page"));
+        basDePages.setAlignment(Pos.CENTER);
+        root.setBottom(basDePages);
 
-        // Ajout des éléments au GridPane
-        formulaire.add(labelName, 0, 0);
-        formulaire.add(textName, 1, 0);
-        formulaire.add(labelEmail, 0, 1);
-        formulaire.add(textEmail, 1, 1);
-        formulaire.add(labelPassword, 0, 2);
-        formulaire.add(textPassword, 1, 2);
 
-        // Création d'un HBox pour centrer les boutons
-        HBox buttonBox = new HBox(10);
-        buttonBox.setAlignment(Pos.CENTER);
-        buttonBox.getChildren().addAll(submitButton, cancelButton);
-
-        // Ajout de l'HBox contenant les boutons au GridPane
-        formulaire.add(buttonBox, 0, 3, 2, 1);
-
-        // Ajout d'un label en bas de la fenêtre
-        Label labelBas = new Label("Ceci est un label de bas de page");
-        HBox BLabelBas = new HBox();
-        BLabelBas.setAlignment(Pos.CENTER);
-        BLabelBas.getChildren().addAll(labelBas);
-
-        // Placement des différents
-        canvas.setTop(menuBar);
-        canvas.setLeft(bareDeBoutons);
-        canvas.setCenter(formulaire);
-        canvas.setBottom(BLabelBas);
-
-        // Création de la scène
-        Scene scene = new Scene(canvas, 700, 500);
+        // Définir la scène principale de l'application
         primaryStage.setScene(scene);
-
-        // Affichage de la fenêtre
+        primaryStage.setTitle("Premier exemple manipulant les conteneurs");
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
+
+    public static void main (String[]args){
         launch(args);
     }
 }
-
