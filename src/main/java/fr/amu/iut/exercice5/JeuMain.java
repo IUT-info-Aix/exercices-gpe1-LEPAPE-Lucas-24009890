@@ -11,6 +11,7 @@ public class JeuMain extends Application {
 
     private Scene scene;
     private BorderPane root;
+    private boolean jeu = true;
 
     @Override
     public void start(Stage primaryStage) {
@@ -47,8 +48,26 @@ public class JeuMain extends Application {
      * @param j1
      * @param j2
      */
+
+    private void afficherGameOver() {
+        // Crée un nouveau panneau avec le message Game Over
+        Pane gameOverPane = new Pane();
+        gameOverPane.setPrefSize(640, 480);
+
+        javafx.scene.text.Text text = new javafx.scene.text.Text("  Toi = Looser");
+        text.setStyle("-fx-font-size: 50px; -fx-fill: red;");
+        text.setLayoutX(150);
+        text.setLayoutY(240);
+
+        gameOverPane.getChildren().add(text);
+        root.setCenter(gameOverPane); // Remplace le panneau central actuel
+    }
+
     private void deplacer(Personnage j1, Personnage j2) {
         scene.setOnKeyPressed((KeyEvent event) -> {
+            if (!jeu)
+                return;
+
             switch (event.getCode()) {
                 case LEFT:
                     j1.deplacerAGauche();
@@ -56,15 +75,31 @@ public class JeuMain extends Application {
                 case RIGHT:
                     j1.deplacerADroite(scene.getWidth());
                     break;
+                case UP:
+                    j1.deplacerEnHaut();
+                    break;
+                case DOWN:
+                    j1.deplacerEnBas(scene.getHeight());
+                    break;
                 case Z:
-                    //j2...... vers le haut;
+                    j2.deplacerEnHaut();
+                    break;
+                case S:
+                    j2.deplacerEnBas(scene.getWidth());
+                    break;
+                case Q:
+                    j2.deplacerAGauche();
+                    break;
+                case D:
+                    j2.deplacerADroite(scene.getWidth());
                     break;
 
             }
-            if (j1.estEnCollision(j2))
+            if (j1.estEnCollision(j2)) {
                 System.out.println("Collision....");
+                jeu = false;
+                afficherGameOver();
+            }
         });
     }
-
-
 }
