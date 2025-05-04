@@ -7,11 +7,15 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class JeuMain extends Application {
 
     private Scene scene;
     private BorderPane root;
     private boolean jeu = true;
+
+    public static ArrayList<Obstacle> obstacles = new ArrayList<>();
 
     @Override
     public void start(Stage primaryStage) {
@@ -26,8 +30,14 @@ public class JeuMain extends Application {
         //panneau du jeu
         Pane jeu = new Pane();
         jeu.setPrefSize(640, 480);
-        jeu.getChildren().add(pacman);
-        jeu.getChildren().add(fantome);
+
+        // Créer des obstacles
+        Obstacle mur1 = new Obstacle(150, 100, 50, 200);
+        Obstacle mur2 = new Obstacle(300, 50, 20, 150);
+        obstacles.add(mur1);
+        obstacles.add(mur2);
+
+        jeu.getChildren().addAll(mur1, mur2, pacman, fantome);
         root.setCenter(jeu);
         //on construit une scene 640 * 480 pixels
         scene = new Scene(root);

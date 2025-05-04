@@ -24,12 +24,19 @@ class Personnage extends Group {
         //   *    *
         //    ****
 
+        double oldX = getLayoutX();
+        double oldY = getLayoutY();
+
         //déplacement <----
         if (getLayoutX() >= LARGEUR_PERSONNAGE) {
             setLayoutX(getLayoutX() - LARGEUR_PERSONNAGE);
         }
         if (!direction.equals("gauche")) {
             direction = "gauche";
+        }
+        if (collisionAvecObstacle()) {
+            setLayoutX(oldX);
+            setLayoutY(oldY);
         }
     }
 
@@ -39,12 +46,20 @@ class Personnage extends Group {
         //  *   ---*
         //   *    *
         //    ****
+
+        double oldX = getLayoutX();
+        double oldY = getLayoutY();
+
         //déplacement ---->
         if (getLayoutX() < largeurJeu - LARGEUR_PERSONNAGE) {
             setLayoutX(getLayoutX() + LARGEUR_PERSONNAGE);
         }
         if (!direction.equals("droite")) {
             direction = "droite";
+        }
+        if (collisionAvecObstacle()) {
+            setLayoutX(oldX);
+            setLayoutY(oldY);
         }
     }
 
@@ -54,12 +69,20 @@ class Personnage extends Group {
         //  *   |   *
         //   *  |  *
         //    *****
+
+        double oldX = getLayoutX();
+        double oldY = getLayoutY();
+
         //déplacement <----
         if (getLayoutY() < hauteurJeu - LARGEUR_PERSONNAGE) {
             setLayoutY(getLayoutY() + LARGEUR_PERSONNAGE);
         }
         if (!direction.equals("bas")) {
             direction = "bas";
+        }
+        if (collisionAvecObstacle()) {
+            setLayoutX(oldX);
+            setLayoutY(oldY);
         }
     }
 
@@ -69,12 +92,20 @@ class Personnage extends Group {
         //  *   |   *
         //   *     *
         //    *****
+
+        double oldX = getLayoutX();
+        double oldY = getLayoutY();
+
         //déplacement <----
         if (getLayoutY() >= LARGEUR_PERSONNAGE) {
             setLayoutY(getLayoutY() - LARGEUR_PERSONNAGE);
         }
         if (!direction.equals("haut")) {
             direction = "haut";
+        }
+        if (collisionAvecObstacle()) {
+            setLayoutX(oldX);
+            setLayoutY(oldY);
         }
     }
 
@@ -83,4 +114,12 @@ class Personnage extends Group {
                 || autrePersonnage.getBoundsInParent().contains(getBoundsInParent());
     }
 
+    protected boolean collisionAvecObstacle() {
+        for (Obstacle o : JeuMain.obstacles) {
+            if (this.getBoundsInParent().intersects(o.getBoundsInParent())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
