@@ -1,8 +1,10 @@
-open module tp.intro.javafx {
+module tp.intro.javafx {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
     requires javafx.fxml;
     requires java.desktop;
     exports com.example.partie1;
+    opens com.example.partie3 to javafx.fxml;
+    exports com.example.partie3;
 }
