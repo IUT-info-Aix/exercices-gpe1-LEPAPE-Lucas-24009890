@@ -11,23 +11,34 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+import java.io.InputStream;
+
 public class CustomButton extends Parent {
 
-    private ImageView image;
+    private ImageView imageView;
 
     public CustomButton() {
         StackPane st = new StackPane();
-        image = new ImageView(new Image("exercice9/Rond.png"));
+
+        // Charger l'image à partir du flux
+        InputStream imageStream = getClass().getResourceAsStream("/exercice9/Rond.png");
+        if (imageStream != null) {
+            Image image = new Image(imageStream);
+            imageView = new ImageView(image); // Créez un ImageView à partir de l'Image
+        } else {
+            System.err.println("Image not found!");
+        }
+
         Label label = new Label("Clic");
         label.setFont(Font.font("Tahoma", FontWeight.BOLD, 15));
         label.setTextFill(Color.ORANGERED);
 
-        st.getChildren().addAll(image, label);
+        st.getChildren().addAll(imageView, label);
         this.getChildren().add(st);
     }
 
     public void addOnMousePressed(EventHandler<MouseEvent> eventHandler) {
-        image.setOnMousePressed(eventHandler);
+        imageView.setOnMousePressed(eventHandler);
     }
 
 }
