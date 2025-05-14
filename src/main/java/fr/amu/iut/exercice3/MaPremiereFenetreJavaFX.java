@@ -59,7 +59,7 @@ public class MaPremiereFenetreJavaFX extends Application {
         vbox.getChildren().add( button );
 
         // Chargement de l'image
-        Image image = new Image( MaPremiereFenetreJavaFX.class.getResource("/silver_button.png").toString() );
+        Image image = new Image(MaPremiereFenetreJavaFX.class.getResource("/exercice3/silver_button.png").toString());
 
         // Création d'un composant avec l'image peinte à l'intérieur
         ImageView iv = new ImageView();

@@ -27,9 +27,9 @@ public class TicTacToe extends Application {
 
 
                 switch (rand.nextInt(3)) {
-                    case 1 -> l.setGraphic(new ImageView("exercice2/Rond.png"));
-                    case 2 -> l.setGraphic(new ImageView("exercice2/Croix.png"));
-                    default -> l.setGraphic(new ImageView("exercice2/Vide.png"));
+                    case 1 -> l.setGraphic(new ImageView(getClass().getResource("/exercice2/Rond.png").toString()));
+                    case 2 -> l.setGraphic(new ImageView(getClass().getResource("/exercice2/Croix.png").toString()));
+                    default -> l.setGraphic(new ImageView(getClass().getResource("/exercice2/Vide.png").toString()));
                 }
                 root.add(l, column, row);
             }
