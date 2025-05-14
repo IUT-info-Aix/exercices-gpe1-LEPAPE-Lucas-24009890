@@ -8,6 +8,9 @@ module tp.intro.javafx {
     exports com.example.partie0;
     exports fr.amu.iut.exercice1;
     exports fr.amu.iut.exercice2;
+    exports fr.amu.iut.exercice4;
+    exports fr.amu.iut.exercice5;
+    exports fr.amu.iut.exercice6;
     opens com.example.partie3 to javafx.fxml;
     exports com.example.partie3;
     exports fr.amu.iut.exercice3 to javafx.graphics;
