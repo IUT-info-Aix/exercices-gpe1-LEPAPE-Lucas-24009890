@@ -1,57 +1,96 @@
-package fr.amu.iut.exercice4;
+package fr.amu.iut.exercice14;
 
+import javafx.beans.Observable;
+import javafx.beans.binding.DoubleBinding;
 import javafx.beans.binding.IntegerBinding;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 
 @SuppressWarnings("Duplicates")
 public class MainPersonnes {
 
-    private static SimpleListProperty<Personne> lesPersonnes;
-    private static IntegerProperty ageMoyen;
-    private static IntegerProperty nbParisiens;
+    private static ObservableList<Personne> lesPersonnes;
 
-    private static IntegerBinding calculAgeMoyen;
-    private static IntegerBinding calculnbParisiens;
+    private static DoubleProperty ageMoyen = new SimpleDoubleProperty(0);
+    private static IntegerProperty nbParisiens = new SimpleIntegerProperty(0);
 
     public static void main(String[] args) {
 
-        lesPersonnes = new SimpleListProperty<>(FXCollections.observableArrayList());
-        ageMoyen = new SimpleIntegerProperty(0);
+        // ObservableList avec écoute des changements sur l'âge et la ville
+        lesPersonnes = FXCollections.observableArrayList(
+                personne -> new Observable[] { personne.ageProperty(), personne.villeDeNaissanceProperty() }
+        );
 
+        // --- Low-level binding : moyenne des âges
+        DoubleBinding calculAgeMoyen = new DoubleBinding() {
+            {
+                bind(lesPersonnes);
+                lesPersonnes.addListener((ListChangeListener<Personne>) change -> invalidate());
+            }
+
+            @Override
+            protected double computeValue() {
+                if (lesPersonnes.isEmpty()) return 0;
+                double somme = 0;
+                for (Personne p : lesPersonnes) {
+                    somme += p.getAge();
+                }
+                return somme / lesPersonnes.size();
+            }
+        };
+        ageMoyen.bind(calculAgeMoyen);
+
+        // --- Low-level binding : nombre de Parisiens
+        IntegerBinding calculNbParisiens = new IntegerBinding() {
+            {
+                bind(lesPersonnes);
+                lesPersonnes.addListener((ListChangeListener<Personne>) change -> invalidate());
+            }
+
+            @Override
+            protected int computeValue() {
+                int count = 0;
+                for (Personne p : lesPersonnes) {
+                    if ("Paris".equalsIgnoreCase(p.getVilleDeNaissance())) {
+                        count++;
+                    }
+                }
+                return count;
+            }
+        };
+        nbParisiens.bind(calculNbParisiens);
+
+        // Lancement des questions pour tests :
+        System.out.println("---- Test question1 ----");
         question1();
-//        question2();
+        System.out.println("Âge moyen : " + ageMoyen.get()); // Doit s'actualiser automatiquement
+
+        System.out.println("---- Test question2 ----");
+        question2();
+        System.out.println("Nombre de Parisiens : " + nbParisiens.get());
     }
 
     public static void question1() {
-        System.out.println("1 - L'age moyen est de " + ageMoyen.getValue() + " ans");
+        lesPersonnes.clear();
         Personne pierre = new Personne("Pierre", 20);
-        lesPersonnes.add(pierre);
-        System.out.println("2 - L'age moyen est de " + ageMoyen.getValue() + " ans");
         Personne paul = new Personne("Paul", 40);
-        lesPersonnes.add(paul);
-        System.out.println("3 - L'age moyen est de " + ageMoyen.getValue() + " ans");
         Personne jacques = new Personne("Jacques", 60);
-        lesPersonnes.add(jacques);
-        System.out.println("4 - L'age moyen est de " + ageMoyen.getValue() + " ans");
-        paul.setAge(100);
-        System.out.println("5 - L'age moyen est de " + ageMoyen.getValue() + " ans");
-        lesPersonnes.remove(paul);
-        System.out.println("6 - L'age moyen est de " + ageMoyen.getValue() + " ans");
+        lesPersonnes.addAll(pierre, paul, jacques);
     }
 
     public static void question2() {
-        System.out.println("Il y a " + nbParisiens.getValue() + " parisiens");
-        lesPersonnes.get(0).setVilleDeNaissance("Marseille");
-        System.out.println("Il y a " + nbParisiens.getValue() + " parisiens");
-        lesPersonnes.get(1).setVilleDeNaissance("Montpellier");
-        System.out.println("Il y a " + nbParisiens.getValue() + " parisien");
-        for (Personne p : lesPersonnes)
-            p.setVilleDeNaissance("Paris");
-        System.out.println("Il y a " + nbParisiens.getValue() + " parisiens");
+        lesPersonnes.clear();
+        Personne pierre = new Personne("Pierre", 20);
+        pierre.setVilleDeNaissance("Paris");
+
+        Personne paul = new Personne("Paul", 40);
+        paul.setVilleDeNaissance("Marseille");
+
+        Personne jacques = new Personne("Jacques", 60);
+        jacques.setVilleDeNaissance("Paris");
+
+        lesPersonnes.addAll(pierre, paul, jacques);
     }
-
 }
-

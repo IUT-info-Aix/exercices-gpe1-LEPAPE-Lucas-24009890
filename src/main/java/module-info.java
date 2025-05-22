@@ -24,4 +24,7 @@ module tp.intro.javafx {
     exports com.example.partie4;
     opens fr.amu.iut.exercice11 to javafx.fxml;
     exports fr.amu.iut.exercice11;
+    exports fr.amu.iut.exercice12;
+    opens fr.amu.iut.exercice15 to javafx.fxml;
+    exports fr.amu.iut.exercice15;
 }
